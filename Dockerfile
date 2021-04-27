@@ -73,7 +73,7 @@ ln -s /usr/local/php7/bin/composer /usr/local/php7/bin/composer7;\
 \cp /root/php-fpm.conf /usr/local/php7/etc/php-fpm.conf;\
 \cp /root/www.conf /usr/local/php7/etc/php-fpm.d/www.conf;\
 \cp /root/php7.service /etc/systemd/system/php7.service;\
-# ln -s /etc/systemd/system/php7.service /etc/systemd/system/multi-user.target.wants/php7.service;\
+ln -s /etc/systemd/system/php7.service /etc/systemd/system/multi-user.target.wants/php7.service;\
 ln -s /usr/local/php7/bin/php /usr/local/php7/bin/php7;\
 chmod -R 755 /usr/local/php7/bin/composer;\
 ## 3扩展安装
@@ -242,7 +242,6 @@ ln -s /usr/local/php5/bin/composer /usr/local/php5/bin/composer5;\
 \cp /root/php5.ini /usr/local/php5/lib/php.ini;\
 \cp /root/php5-fpm.conf /usr/local/php5/etc/php-fpm.conf;\
 \cp /root/php5.service /etc/systemd/system/php5.service;\
-ln -s /etc/systemd/system/php5.service /etc/systemd/system/multi-user.target.wants/php5.service;\
 ln -s /usr/local/php5/bin/php /usr/local/php5/bin/php5;\
 chmod -R 755 /usr/local/php5/bin/composer;\
 ## 3扩展安装
@@ -410,7 +409,7 @@ ln -s /usr/lib/systemd/system/owner.service /etc/systemd/system/multi-user.targe
 # 删除所有安装包
 rm -rf /root/*
 # 环境变量
-ENV PATH $PATH:/usr/local/php5/bin:/usr/local/php5/sbin:/usr/local/php7/bin:/usr/local/php7/sbin:/usr/local/nginx/sbin:/usr/local/node/bin
+ENV PATH $PATH:/usr/local/php7/bin:/usr/local/php7/sbin:/usr/local/php5/bin:/usr/local/php5/sbin:/usr/local/nginx/sbin:/usr/local/node/bin
 # 创建卷
 VOLUME ["/www","/data/mysql","/sys/fs/cgroup"]
 # 初始化
