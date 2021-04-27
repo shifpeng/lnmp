@@ -2,17 +2,17 @@
 
 由于该环境主要要运行一些支持PHP5.6的项目，所以默认安装的是PHP5.6 
 
-如果需要PHP7的环境，拉取镜像`steven_lnmp:php7`
+如果需要PHP7的环境，拉取镜像`steven_lnmp:php7`,下面以`shifupeng/lnmp:dllv1.0`为例
 
 ### 下载(Download)
 ```
 # 主流版本
-docker pull shifupeng/steven_lnmp:v1
+docker pull shifupeng/lnmp:dllv1.0
 ```
 ### 启动(Start)
 ```
 # 端口映射自行指定,容器名称自行指定为lnmp
-docker run -dit --privileged=true --name=lnmp shifupeng/steven_lnmp:v1
+docker run -dit --privileged=true --name=lnmp shifupeng/lnmp:dllv1.0
 
 # 高级用法(Advanced usage)
 docker run -dit \
@@ -24,7 +24,7 @@ docker run -dit \
 -v /xxx/mysql:/data/mysql \
 --privileged=true \
 --name=lnmp \
--d shifupeng/steven_lnmp:v1
+-d shifupeng/lnmp:dllv1.0
 ```
 `-v` 后面的路指向到自己的本地路径，`dll`之前，比如我本地的项目路径是`/Users/steven/SvnGitRepository/dll/ZZCX_yii/`
 那么`-v` 后面的配置就是 `-v /Users/steven/SvnGitRepository:/www`
