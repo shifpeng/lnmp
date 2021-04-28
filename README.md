@@ -1,18 +1,15 @@
 ## 使用教程(Quick start)
 
-由于该环境主要要运行一些支持PHP5.6的项目，所以默认安装的是PHP5.6 
-
-如果需要PHP7的环境，拉取镜像`steven_lnmp:php7`,下面以`shifupeng/lnmp:dllv1.0`为例
 
 ### 下载(Download)
 ```
 # 主流版本
-docker pull shifupeng/lnmp:dllv1.0
+docker pull shifupeng/lnmp:v1.0
 ```
 ### 启动(Start)
 ```
 # 端口映射自行指定,容器名称自行指定为lnmp
-docker run -dit --privileged=true --name=lnmp shifupeng/lnmp:dllv1.0
+docker run -dit --privileged=true --name=lnmp shifupeng/lnmp:v1.0
 
 # 高级用法(Advanced usage)
 docker run -dit \
@@ -24,10 +21,8 @@ docker run -dit \
 -v /xxx/mysql:/data/mysql \
 --privileged=true \
 --name=lnmp \
--d shifupeng/lnmp:dllv1.0
+-d shifupeng/lnmp:v1.0
 ```
-`-v` 后面的路指向到自己的本地路径，`dll`之前，比如我本地的项目路径是`/Users/steven/SvnGitRepository/dll/ZZCX_yii/`
-那么`-v` 后面的配置就是 `-v /Users/steven/SvnGitRepository:/www`
 
 
 ### 连接(Connect)
@@ -43,7 +38,7 @@ ps aux|grep php-fpm
 # 或者(Or)
 systemctl status nginx
 systemctl status mysqld
-systemctl status php5
+systemctl status php7
 ```
 ### 初始密码(Default password)
 ```
@@ -68,18 +63,58 @@ password=`cat /var/log/mysqld.log|grep 'A temporary password'`;password=${passwo
 # MySQL
 /etc/my.cnf
 # PHP
-/usr/local/php5/lib/php.ini
-/usr/local/php5/etc/php-fpm.conf
-/usr/local/php5/etc/php-fpm.d/www.conf
+/usr/local/php7/lib/php.ini
+/usr/local/php7/etc/php-fpm.conf
+/usr/local/php7/etc/php-fpm.d/www.conf
 # 如对配置文件比较熟悉，也可以通过宿主机挂载使用自定义的配置文件
 ```
 ### PHP扩展(PHP extension)
 ```
-# 默认已安装部分扩展在目录：/usr/local/php5/lib/php/extensions/no-debug-non-zts-20170718/
+# 默认已安装部分扩展在目录：/usr/local/php7/lib/php/extensions/no-debug-non-zts-20170718/
 # 如果要启用指定扩展，则需要修改php.ini，加上
 extension=xxx.so
 # xxx为PHP扩展的文件名，然后重启php
-systemctl restart php5
+systemctl restart php7
 ```
 
+如：安装xdebug
+```
+curl -O https://xdebug.org/files/xdebug-2.5.0.tgz
+tar -zxf xdebug-2.5.0.tgz
+cd xdebug-2.5.0
+phpize
+./configure --with-php-config=--with-php-config=/usr/local/php5/bin/php-config  # 这里为自己环境中的php-config
+make
+make install
+Installing shared extensions:     /usr/lib/php/extensions/no-debug-non-zts-20131226/
+```
+然后在php.ini中配置`zend_extension=xdebug.so
+`
 
+重启nginx，检查是否安装成功
+`
+service nginx restart
+`
+
+```
+[root@e1bc93894c4c no-debug-non-zts-20131226]# php -m | grep xdebug
+xdebug
+```
+xdebug配置
+```
+[Xdebug]
+zend_extension ="/usr/local/php5/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so"
+xdebug.profiler_enable=on
+;xdebug.trace_output_dir="/usr/local/php5/lib/php/extensions/no-debug-non-zts-20131226/"
+;xdebug.profiler_output_dir="/usr/local/php5/lib/php/extensions/no-debug-non-zts-20131226/"
+xdebug.remote_enable=on
+xdebug.remote_handler=dbgp
+xdebug.remote_port=9010  
+xdebug.remote_host=10.11.12.35  # 宿主机的Ip
+```
+记得PHPstom的debug端口也要设置成9010
+
+
+
+### 切换php版本
+`pvm 5`
